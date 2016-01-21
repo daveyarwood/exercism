@@ -1,2 +1,4 @@
+from __future__ import unicode_literals
+
 def hello(name='World'):
-    return u'Hello, {}!'.format(name)
+    return 'Hello, {}!'.format(name)

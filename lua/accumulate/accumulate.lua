@@ -1,7 +1,7 @@
 function accumulate(coll, f)
   local result = {}
-  for i = 1, #coll do
-    result[i] = f(coll[i])
+  for k, v in pairs(coll) do
+    result[k] = f(v)
   end
   return result
 end
