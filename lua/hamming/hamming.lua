@@ -5,7 +5,7 @@ function hamming.compute(a, b)
 
   -- I'm assuming a and b are the same length
   for i = 1, #a do
-    if a:sub(i, i) ~= b:sub(i, i) then
+    if a:byte(i) ~= b:byte(i) then
       sum = sum + 1
     end
   end
