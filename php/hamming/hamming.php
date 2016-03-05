@@ -16,4 +16,3 @@ function distance($a, $b) {
   return array_reduce($zipped, "tally_distance", 0);
 }
 
-?>
