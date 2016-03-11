@@ -5,7 +5,8 @@
 ;;; Code:
 
 (defun sum-of-squares (n)
-  (apply '+ (map 'list (lambda (n) (* n n)) (number-sequence 1 n))))
+  (let ((squares (map 'list (lambda (n) (* n n)) (number-sequence 1 n))))
+    (apply '+ squares)))
 
 (defun square-of-sums (n)
   (let ((sum (apply '+ (number-sequence 1 n))))
