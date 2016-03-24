@@ -1,5 +1,5 @@
 class Hamming
-  VERSION = File.read('.version').to_i
+  VERSION = 1
 
   def Hamming.compute(a, b)
     unless a.size == b.size
