@@ -1,5 +1,5 @@
 (defmodule leap
-  (export all))
+  (export (leap-year 1)))
 
 (defun div-by (year n)
   (== 0 (rem year n)))
