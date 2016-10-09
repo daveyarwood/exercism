@@ -5,13 +5,18 @@ module BookKeeping
 end
 
 module Complement
-  DNA_TO_RNA = {'G' => 'C', 'C' => 'G', 'T' => 'A', 'A' => 'U'}
+  def Complement.lookup(nucleotide)
+    case nucleotide
+    when 'G'; 'C'
+    when 'C'; 'G'
+    when 'T'; 'A'
+    when 'A'; 'U'
+    else; ''
+    end
+  end
 
-  def Complement.of_dna(strand)
-    strand.chars.map do |nucleotide|
-      DNA_TO_RNA[nucleotide] or raise InvalidNucleotideError
-    end.join
-  rescue InvalidNucleotideError
-    ''
+  def Complement.of_dna(dna)
+    rna = dna.chars.map(&Complement.method(:lookup)).join
+    dna.length == rna.length ? rna : ''
   end
 end
