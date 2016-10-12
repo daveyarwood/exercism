@@ -7,7 +7,9 @@ const DNA_TO_RNA = {
 
 class Transcriptor {
   toRna(dna_strand) {
-    return dna_strand.split('').map(x => DNA_TO_RNA[x]).join('')
+    return dna_strand.split('')
+                     .map(x => DNA_TO_RNA[x])
+                     .join('')
   }
 }
 
