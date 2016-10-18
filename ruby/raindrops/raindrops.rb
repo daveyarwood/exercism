@@ -3,13 +3,20 @@ module BookKeeping
 end
 
 class Raindrops
-  def Raindrops.convert(n)
-    result = ''
+  RULES = [
+    [3, 'Pling'],
+    [5, 'Plang'],
+    [7, 'Plong']
+  ]
 
-    [[3, 'Pling'], [5, 'Plang'], [7, 'Plong']].each do |(num, str)|
-      result += str if n % num == 0
+  def Raindrops.convert(drop_number)
+    sounds = RULES.select {|(n, _)| drop_number % n == 0}
+                  .collect {|(_, str)| str}
+
+    if sounds.empty?
+      drop_number.to_s
+    else
+      sounds.join ''
     end
-
-    result == '' ? n.to_s : result
   end
 end
