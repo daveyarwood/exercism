@@ -9,14 +9,11 @@ class Raindrops
     [7, 'Plong']
   ]
 
-  def Raindrops.convert(drop_number)
-    sounds = RULES.select {|(n, _)| drop_number % n == 0}
-                  .collect {|(_, str)| str}
-
-    if sounds.empty?
-      drop_number.to_s
-    else
-      sounds.join ''
+  def Raindrops.convert(drop)
+    sounds = RULES.reduce '' do |result, (n, sound)|
+      drop % n == 0 ? result << sound : result
     end
+
+    sounds.empty? ? drop.to_s : sounds
   end
 end
