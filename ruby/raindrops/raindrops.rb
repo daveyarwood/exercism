@@ -3,15 +3,15 @@ module BookKeeping
 end
 
 class Raindrops
-  RULES = [
-    [3, 'Pling'],
-    [5, 'Plang'],
-    [7, 'Plong']
-  ]
+  RULES = {
+    3 => 'Pling',
+    5 => 'Plang',
+    7 => 'Plong'
+  }
 
   def Raindrops.convert(drop)
-    sounds = RULES.reduce '' do |result, (n, sound)|
-      drop % n == 0 ? result << sound : result
+    sounds = RULES.sort.each_with_object '' do |(n, sound), result|
+      result << sound if drop % n == 0
     end
 
     sounds.empty? ? drop.to_s : sounds
