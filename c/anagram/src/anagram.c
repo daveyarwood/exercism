@@ -1,7 +1,18 @@
 #include "anagram.h"
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+char* tolower_str(char* str) {
+  char* result = malloc(sizeof(str));
+
+  for (int i = 0; i < (int)strlen(str); i++) {
+    result[i] = tolower(str[i]);
+  }
+
+  return result;
+}
 
 void sort_string(char* in, char* out){
   unsigned int frequencies[256] = {0};
@@ -26,9 +37,16 @@ void sort_string(char* in, char* out){
 }
 
 int is_anagram(char* word1, char* word2) {
+  char* lowercase_word1 = tolower_str(word1);
+  char* lowercase_word2 = tolower_str(word2);
+
+  if (strcmp(lowercase_word1, lowercase_word2) == 0) {
+    return 0;
+  }
+
   char sorted1[MAX_STR_LEN], sorted2[MAX_STR_LEN];
-  sort_string(word1, sorted1);
-  sort_string(word2, sorted2);
+  sort_string(lowercase_word1, sorted1);
+  sort_string(lowercase_word2, sorted2);
   return strcmp(sorted1, sorted2) == 0;
 }
 
