@@ -12,10 +12,9 @@ defmodule Raindrops do
   """
   @spec convert(pos_integer) :: String.t
   def convert(number) do
-    sounds = @rules
-             |> Enum.sort
-             |> Enum.map(fn({n, sound}) -> if (rem(number, n) == 0), do: sound end)
-             |> Enum.reject(&(&1 == nil))
+    sounds = (for {n, sound} <- Enum.sort(@rules),
+                  rem(number, n) == 0,
+                  do: sound)
              |> Enum.join("")
 
     if (sounds == ""), do: Integer.to_string(number), else: sounds
