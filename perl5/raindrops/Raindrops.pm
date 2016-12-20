@@ -17,17 +17,10 @@ sub convert {
 
   for my $n (sort (keys %rules)) {
     my $sound = $rules{$n};
-
-    if ($number % $n == 0) {
-      $raindrops .= $sound;
-    }
+    $raindrops .= $sound if $number % $n == 0;
   }
 
-  if ($raindrops eq "") {
-    $raindrops = $number;
-  }
-
-  return $raindrops;
+  return $raindrops || $number;
 }
 
 1;
