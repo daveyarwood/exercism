@@ -6,7 +6,7 @@ local rules = {
 
 function raindrops(number)
   local result = ''
-  for i, v in ipairs(rules) do
+  for _, v in ipairs(rules) do
     n, sound = unpack(v)
     if number % n == 0 then
       result = result .. sound
