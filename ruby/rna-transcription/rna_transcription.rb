@@ -12,7 +12,8 @@ module Complement
   DNA_TO_RNA.default ''
 
   def Complement.of_dna(dna_strand)
-    rna_strand = dna_strand.chars.map{ |dna| DNA_TO_RNA[dna] }.join
-    dna_strand.length == rna_strand.length ? rna_strand : ''
+    dna_strand.chars.map do |dna|
+      DNA_TO_RNA[dna] || (return '')
+    end.join
   end
 end
