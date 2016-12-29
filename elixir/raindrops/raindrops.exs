@@ -1,5 +1,5 @@
 defmodule Raindrops do
-  @rules %{3 => 'Pling', 5 => 'Plang', 7 => 'Plong'}
+  @rules [{3, 'Pling'}, {5, 'Plang'}, {7, 'Plong'}]
 
   @doc """
   Returns a string based on raindrop factors.
@@ -12,7 +12,7 @@ defmodule Raindrops do
   """
   @spec convert(pos_integer) :: String.t
   def convert(number) do
-    sounds = (for {n, sound} <- Enum.sort(@rules),
+    sounds = (for {n, sound} <- @rules,
                   rem(number, n) == 0,
                   do: sound)
              |> Enum.join("")
