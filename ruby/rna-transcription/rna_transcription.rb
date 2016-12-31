@@ -9,11 +9,10 @@ module Complement
     'T' => 'A',
     'A' => 'U'
   }
-  DNA_TO_RNA.default ''
 
   def Complement.of_dna(dna_strand)
-    dna_strand.chars.map do |dna|
-      DNA_TO_RNA[dna] || (return '')
-    end.join
+    dna_strand.chars.each.with_object('') do |dna, rna|
+      rna << (DNA_TO_RNA[dna] || (return ''))
+    end
   end
 end
