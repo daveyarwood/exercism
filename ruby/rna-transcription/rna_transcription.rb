@@ -10,9 +10,11 @@ module Complement
     'A' => 'U'
   }
 
-  def Complement.of_dna(dna_strand)
-    dna_strand.chars.each_with_object('') do |dna, rna|
-      rna << (DNA_TO_RNA[dna] || (return ''))
+  def Complement.of_dna(strand)
+    strand.each_char.with_object('') do |dna, rna|
+      nucleotide = DNA_TO_RNA[dna]
+      return '' unless nucleotide
+      rna << nucleotide
     end
   end
 end
