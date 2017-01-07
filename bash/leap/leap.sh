@@ -7,9 +7,15 @@ fi
 
 YEAR=$1
 
-if [[ $(echo $YEAR % 400 | bc) -eq 0 ]] || \
-   ([[ $(echo $YEAR % 4 | bc) -eq 0 ]] && [[ ! $(echo $YEAR % 100 | bc) -eq 0 ]])
-then
+divisible_by() {
+  if [[ $(echo $YEAR % $1 | bc) -eq 0 ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+if divisible_by 400 || (divisible_by 4 && ! divisible_by 100); then
   echo This is a leap year.
 else
   echo This is not a leap year.
