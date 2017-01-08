@@ -10,6 +10,7 @@
 ;;; Code:
 
 (defun from (second minute hour day month year)
+  (set-time-zone-rule t)
   (let* ((seconds (round
                    (time-to-seconds
                     (encode-time second minute hour day month year t))))
