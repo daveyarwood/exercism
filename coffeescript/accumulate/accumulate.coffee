@@ -1,2 +1,2 @@
-Array.prototype.accumulate = (f) -> f(x) for x in this
+Array::accumulate = (f) -> f(x) for x in this
 
