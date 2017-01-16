@@ -1,16 +1,15 @@
 local bob = {}
 
 local function shouting(utterance)
-  return string.match(utterance, '[A-Z]') and
-         not string.match(utterance, '[a-z]')
+  return utterance:match('[A-Z]') and not utterance:match('[a-z]')
 end
 
 local function asking(utterance)
-  return string.match(utterance, '?$')
+  return utterance:match('?$')
 end
 
 local function not_saying_anything(utterance)
-  return string.match(utterance, '^%s*$')
+  return utterance:match('^%s*$')
 end
 
 function bob.hey(utterance)
