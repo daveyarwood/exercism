@@ -4,5 +4,5 @@ Boolean divisibleBy(Integer n, Integer year) {
 
 Boolean leapYear(Integer year) {
   return divisibleBy(400, year) ||
-         divisibleBy(4, year) && !divisibleBy(100, year);
+         (divisibleBy(4, year) && !divisibleBy(100, year));
 }
