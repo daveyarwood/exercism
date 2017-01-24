@@ -14,7 +14,7 @@ distance=0
 
 for (( i=0; i<${#1}; i++ )); do
   if [ ${1:$i:1} != ${2:$i:1} ]; then
-    let 'distance += 1'
+    (( distance += 1 ))
   fi
 done
 
