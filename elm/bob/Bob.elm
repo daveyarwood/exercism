@@ -1,17 +1,23 @@
-module Bob exposing (..)
+module Bob exposing (hey)
+import Regex
 
--- currently getting this weird error:
+isShouting : String -> Bool
+isShouting utterance =
+  let
+      hasUppercase = Regex.contains (Regex.regex "[A-Z]")
+      hasLowercase = Regex.contains (Regex.regex "[a-z]")
+  in
+     hasUppercase utterance && not (hasLowercase utterance)
 
--- Success! Compiled 1 module.
--- Successfully generated /var/folders/h0/jb2j4f310zx08ynwfxw8lxg00000gn/T/elm_test_116722-49575-1vquwbx.js
--- Successfully compiled BobTests.elm
--- Running tests...
+isAsking : String -> Bool
+isAsking = String.endsWith "?"
 
--- [stdin]:12311
---     if (typeof Elm === "undefined") { throw "elm-io config error: Elm is not defined. Make sure you call elm-io with a real Elm output file"}
---                                               ^
--- elm-io config error: Elm is not defined. Make sure you call elm-io with a real Elm output file
+notSayingAnything : String -> Bool
+notSayingAnything = Regex.contains (Regex.regex "^\\s*$")
 
 hey : String -> String
 hey utterance =
-  utterance
+  if isShouting utterance then "Whoa, chill out!"
+  else if isAsking utterance then "Sure."
+  else if notSayingAnything utterance then "Fine. Be that way!"
+  else "Whatever."

@@ -1,6 +1,6 @@
 port module Main exposing (..)
 
-import Test.Runner.Node exposing (run)
+import Test.Runner.Node exposing (run, TestProgram)
 import Json.Encode exposing (Value)
 import Test exposing (..)
 import Expect
@@ -76,7 +76,7 @@ tests =
             \() ->
                 Expect.equal
                     "Whoa, chill out!"
-                    (Bob.hey "ZOMG THE %^*@#$(*^ ZOMBIES ARE COMING!!11!!1!)")
+                    (Bob.hey "ZOMG THE %^*@#$(*^ ZOMBIES ARE COMING!!11!!1!")
         , test "shouting with no exclamation mark" <|
             \() ->
                 Expect.equal
@@ -137,7 +137,7 @@ listOfCharacters length characterList =
 
 gibberish : Int -> Random.Generator Char -> String
 gibberish length characterList =
-    fst (Random.step (Random.map String.fromList (listOfCharacters length characterList)) (Random.initialSeed 424242))
+    Tuple.first (Random.step (Random.map String.fromList (listOfCharacters length characterList)) (Random.initialSeed 424242))
 
 
 uppercaseGibberish : Int -> String
@@ -150,7 +150,7 @@ gibberishQuestion length =
     (gibberish length anyCharacter) ++ "?"
 
 
-main : Program Value
+main : TestProgram
 main =
     run emit tests
 

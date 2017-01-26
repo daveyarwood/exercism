@@ -1,3 +1,4 @@
 npm-debug.log
 repl-temp-*.elm
 elm-stuff/
+node_modules/
