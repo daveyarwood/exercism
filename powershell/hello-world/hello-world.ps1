@@ -1,8 +1,8 @@
 function HelloWorld {
-  if (!$args[0]) {
+  $name = $args[0]
+
+  if (!$name) {
     $name = "World"
-  } else {
-    $name = $args[0]
   }
 
   return "Hello $name!"
