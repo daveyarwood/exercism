@@ -5,9 +5,7 @@ defmodule RunLengthEncoder do
   defp encode_chunk(chars) do
     count = Enum.count(chars)
     number = if count == 1 do "" else Integer.to_string(count) end
-
     letter = List.first(chars)
-
     "#{number}#{letter}"
   end
 
