@@ -1,4 +1,4 @@
-diff = {};
+local diff = {}
 
 local function sum_fn(f_each, f_total)
   return function(n)
@@ -22,4 +22,4 @@ function diff.difference_of_squares(n)
   return diff.square_of_sums(n) - diff.sum_of_squares(n)
 end
 
-return diff;
+return diff
