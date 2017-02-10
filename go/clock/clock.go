@@ -6,17 +6,17 @@ const testVersion = 4
 
 type Clock int
 
-const MINUTES_IN_A_DAY = 60 * 24
+const minutesInADay = 60 * 24
 
 func New(hour, minute int) Clock {
 	minutes := (hour * 60) + minute
 
 	for minutes < 0 {
-		minutes += MINUTES_IN_A_DAY
+		minutes += minutesInADay
 	}
 
-	for minutes >= MINUTES_IN_A_DAY {
-		minutes -= MINUTES_IN_A_DAY
+	for minutes >= minutesInADay {
+		minutes -= minutesInADay
 	}
 
 	return Clock(minutes)
