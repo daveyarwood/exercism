@@ -26,7 +26,7 @@ func (c Clock) String() string {
 	hour := (int(c) / 60) % 24
 	minute := int(c) % 60
 
-	return fmt.Sprintf("%0.2d:%0.2d", hour, minute)
+	return fmt.Sprintf("%02d:%02d", hour, minute)
 }
 
 func (c Clock) Add(minutes int) Clock {
