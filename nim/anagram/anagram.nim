@@ -2,13 +2,8 @@ import algorithm
 import sequtils
 import strutils
 
-# there has to be a better way, wtf
-proc charSeqToString(cseq: seq[char]): string =
-  map(cseq, proc(c: char): string = repeat(c, 1)).join
-
-proc sortString(str: string): string =
-  let sortedCharSeq: seq[char] = sorted(toSeq(str.items), system.cmp)
-  return charSeqToString(sortedCharSeq)
+proc sortString(str: string): seq[char] =
+  return sorted(toSeq(str.items), system.cmp)
 
 proc detectAnagrams*(word: string, candidates: seq[string]): seq[string] =
   let isAnagram = proc(candidate: string): bool =
