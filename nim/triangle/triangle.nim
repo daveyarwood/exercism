@@ -6,9 +6,7 @@ type TriangleType* = enum tkEquilateral, tkIsosceles, tkScalene
 proc validateTriangle(a: float, b: float, c: float): void =
   let
     sortedSizes: seq[float] = sorted(@[a, b, c], system.cmp[float])
-    a: float = sortedSizes[0]
-    b: float = sortedSizes[1]
-    c: float = sortedSizes[2]
+    (a, b, c) = (sortedSizes[0], sortedSizes[1], sortedSizes[2])
 
   if (a.classify == fcNaN) or (b.classify == fcNaN) or (c.classify == fcNaN):
     raise newException(ValueError, "Each side must be a number.")
