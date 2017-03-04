@@ -1,38 +1,42 @@
-# Failing here with:
-#
-# react_test.nim(5, 6) template/generic instantiation from here
-# react_test.nim(9, 11) Error: undeclared field: 'value'
-#
-# I'm not sure why the Nim compiler doesn't think a Cell can have a value
-# field.
-#
-# I followed the pattern here:
-# https://nim-lang.org/docs/manual.html#types-object-variants
+import sequtils
 
 type
-  CellKind = enum ckInput, ckFormula
-  Cell = ref CellObj
-  CellObj = object
-    case kind: CellKind
-    of ckInput:
-      value: int
-    of ckFormula:
-      formula: int # not correct, FIXME
+  Cell* = ref object
+    value*: int
+    dependents*: seq[Cell]
+    inputCells: seq[Cell]
+    formula: proc(vals: seq[int]): int
 
-type Reactor = ref object of RootObj
-  cells: seq[Cell]
+# not used in my implementation
+type Reactor = ref object
 
-proc newReactor*(): Reactor =
-  return Reactor(cells: newSeq[Cell]())
+proc newReactor*(): Reactor = Reactor()
 
 proc createInput*(this: Reactor, value: int): Cell =
-  var inputCell = Cell(kind: ckInput, value: value)
-  this.cells.add(inputCell)
-  return inputCell
+  Cell(value: value, dependents: newSeq[Cell]())
 
-# FIXME
-# proc createCompute*(this: Reactor): Cell =
-#   var formulaCell = Cell(kind: ckFormula)
-#   this.cells.add(formulaCell)
-#   return formulaCell
+proc updateValue(this: Cell) =
+  var inputs = this.inputCells.map(proc(input: Cell): int = input.value)
+  this.value = this.formula(inputs)
+
+proc `value=`*(this: Cell, value: int) =
+  for dependent in this.dependents:
+    dependent.updateValue()
+
+proc createCompute*(this: Reactor, cells: seq[Cell], formula: proc(vals: seq[int]): int): Cell =
+  var formulaCell = Cell(inputCells: cells, formula: formula)
+
+  for ancestor in cells:
+    ancestor.dependents.add(formulaCell)
+
+  formulaCell.updateValue()
+  formulaCell
+
+# TODO after getting the above to work
+proc addCallback*(this: Cell, callback: proc(val: int)): proc(val: int) =
+  discard
+
+# TODO after getting the above to work
+proc removeCallback*(this: Cell, callback: proc(val: int)) =
+  discard
 
