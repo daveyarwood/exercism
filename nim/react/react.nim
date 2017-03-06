@@ -1,11 +1,16 @@
 import sequtils
+import tables
 
 type
+  CallbackID = int
+  Callback = proc(val: int)
+  CellFormula = proc(vals: seq[int]): int
   Cell* = ref object
-    value*: int
+    value: int
     dependents*: seq[Cell]
+    callbacks: Table[CallbackID, Callback]
     inputCells: seq[Cell]
-    formula: proc(vals: seq[int]): int
+    formula: CellFormula
 
 # not used in my implementation
 type Reactor = ref object
@@ -15,28 +20,55 @@ proc newReactor*(): Reactor = Reactor()
 proc createInput*(this: Reactor, value: int): Cell =
   Cell(value: value, dependents: newSeq[Cell]())
 
-proc updateValue(this: Cell) =
+proc applyFormula(this: Cell): tuple[oldValue: int, newValue: int] =
   var inputs = this.inputCells.map(proc(input: Cell): int = input.value)
-  this.value = this.formula(inputs)
+  var oldValue = this.value
+  var newValue = this.formula(inputs)
+  this.value = newValue
+  (oldValue: oldValue, newValue: newValue)
+
+proc updateValue(this: Cell, callbacksTriggered: var seq[CallbackID]) =
+  var (oldValue, newValue) = this.applyFormula()
+
+  if oldValue != newValue:
+    for id, callback in pairs(this.callbacks):
+      if not callbacksTriggered.contains(id):
+        callbacksTriggered.add(id)
+        callback(newValue)
+
+  for dependent in this.dependents:
+    dependent.updateValue(callbacksTriggered)
+
+proc value*(this: Cell): int =
+  this.value
 
 proc `value=`*(this: Cell, value: int) =
+  this.value = value
+  var callbacksTriggered = newSeq[CallbackID]()
   for dependent in this.dependents:
-    dependent.updateValue()
+    dependent.updateValue(callbacksTriggered)
 
-proc createCompute*(this: Reactor, cells: seq[Cell], formula: proc(vals: seq[int]): int): Cell =
-  var formulaCell = Cell(inputCells: cells, formula: formula)
+proc createCompute*(this: Reactor, cells: seq[Cell], formula: CellFormula): Cell =
+  var formulaCell = Cell(inputCells: cells, formula: formula, dependents:
+  newSeq[Cell](), callbacks: initTable[CallbackID, Callback]())
 
   for ancestor in cells:
     ancestor.dependents.add(formulaCell)
 
-  formulaCell.updateValue()
+  discard formulaCell.applyFormula()
   formulaCell
 
-# TODO after getting the above to work
-proc addCallback*(this: Cell, callback: proc(val: int)): proc(val: int) =
-  discard
+var nextCallbackID = -1
 
-# TODO after getting the above to work
-proc removeCallback*(this: Cell, callback: proc(val: int)) =
-  discard
+proc newCallbackID(): CallbackID =
+  inc(nextCallbackID)
+  nextCallbackID
+
+proc addCallback*(this: Cell, callback: Callback): CallbackID =
+  var id = newCallbackID()
+  this.callbacks[id] = callback
+  return id
+
+proc removeCallback*(this: Cell, callbackId: CallbackID) =
+  this.callbacks.del(callbackId)
 
