@@ -19,10 +19,8 @@ proc binary*(str: string): int =
   var power = -1.0
 
   for char in toSeq(str.items).reversed():
-    var digit = parseBinaryDigit(char)
-
     power = power + 1
+    var digit = parseBinaryDigit(char)
     var digitValue = (digit.float * 2.pow(power)).int
     sum = sum + digitValue
-
   sum
