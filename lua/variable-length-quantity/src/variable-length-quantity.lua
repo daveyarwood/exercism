@@ -1,7 +1,13 @@
 local vlq = {}
 
 local function reverse_table(table)
-  -- TODO
+  local reversed_table = {}
+
+  for i, v in ipairs(table) do
+    reversed_table[#table - (i - 1)] = v
+  end
+
+  return reversed_table
 end
 
 -- represent a number as a string of 0s and 1s
@@ -26,11 +32,11 @@ local function seven_bit_groups(binary_str)
   local bit_groups_reversed = {}
   local bit_group_reversed = {}
 
-  for i = #binary_str, 1, -1 do
+  for i = binary_str:len(), 1, -1 do
     local j = #bit_group_reversed + 1
 
     if #bit_group_reversed < 7 then
-      table.insert(bit_group_reversed, binary_str[i])
+      table.insert(bit_group_reversed, tonumber(binary_str[i]))
     else
       local bit_group = reverse_table(bit_group_reversed)
       table.insert(bit_groups_reversed, bit_group)
@@ -40,7 +46,9 @@ local function seven_bit_groups(binary_str)
   end
 
   if #bit_group_reversed > 0 then
-    -- TODO: pad bit_group_reversed with 0's
+    while #bit_group_reversed < 7 do
+      table.insert(bit_group_reversed, 0)
+    end
 
     local bit_group = reverse_table(bit_group_reversed)
     table.insert(bit_groups_reversed, bit_group)
@@ -53,10 +61,30 @@ end
 -- for every group except for the last one, which is assigned an MSB of 0,
 -- signaling that it is the last byte in the variable length integer
 local function assign_msbs(bit_groups)
-  -- TODO
+  local bytes = {}
+
+  for i, bit_group in ipairs(bit_groups) do
+    local byte = {}
+    if i == #bit_groups then
+      table.insert(byte, 0)
+    else
+      table.insert(byte, 1)
+    end
+
+    for i, bit in ipairs(bit_group) do
+      table.insert(byte, bit)
+    end
+
+    table.insert(bytes, byte)
+  end
+
+  return bytes
 end
 
-function vlq.encode(number)
+function vlq.encode(numbers)
+  -- TODO: handle encoding multiple values
+  local number = numbers[1]
+
   local binary_str = in_binary(number)
   local bit_groups = seven_bit_groups(binary_str)
   local byte_strs = assign_msbs(bit_groups)
