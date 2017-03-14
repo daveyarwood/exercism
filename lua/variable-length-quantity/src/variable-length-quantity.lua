@@ -12,18 +12,19 @@ end
 
 -- represent a number as a string of 0s and 1s
 local function in_binary(number)
-  local num_bits = select(2, math.frexp(number))
+  local num_bits = math.max(1, select(2, math.frexp(number)))
   local bits = {}
 
   for i = num_bits, 1, -1 do
     local bit = math.fmod(number, 2)
     bits[i] = bit
-    number = (number - bit) / 2
+    number = math.floor((number - bit) / 2)
   end
 
   return table.concat(bits)
 end
 
+-- FIXME: returning an empty table
 -- split a binary number string into groups of 7 bits each, padding the largest
 -- group with 0's
 --
