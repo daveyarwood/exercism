@@ -4,7 +4,6 @@ class Gigasecond {
   }
 
   date() {
-    let secondsSinceEpoch = this.fromDate + 1000000000;
     let toDate = new Date(0);
     toDate.setUTCSeconds(this.fromDate + 1000000000);
     return toDate;
