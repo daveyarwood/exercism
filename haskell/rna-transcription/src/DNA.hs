@@ -7,5 +7,5 @@ dnaToRna = [('G', 'C'),
             ('A', 'U')]
 
 toRNA :: String -> Maybe String
-toRNA xs = mapM ((flip lookup) dnaToRna) xs
+toRNA = mapM ((flip lookup) dnaToRna)
 
