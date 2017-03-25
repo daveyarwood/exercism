@@ -3,8 +3,5 @@ function distance(s1::AbstractString, s2::AbstractString)
     throw(ArgumentError("Strands not the same length."))
   end
 
-  count(zip(s1, s2)) do tuple
-    a, b = tuple
-    a != b
-  end
+  count(pair -> pair[1] != pair[2], zip(s1, s2))
 end
