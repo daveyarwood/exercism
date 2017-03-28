@@ -29,7 +29,6 @@ const map<string, int> word_count::words(const char* input) {
 
   for (sregex_iterator i = words_begin; i != words_end; i++) {
     string word = (*i).str();
-    int word_freq = freqs[word] || 0;
     freqs[word]++;
   }
 
