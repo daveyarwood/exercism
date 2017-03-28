@@ -3,7 +3,6 @@
 #include <regex>
 #include <sstream>
 #include <string>
-#include <boost/algorithm/string.hpp>
 
 using namespace std;
 
@@ -23,18 +22,15 @@ const map<string, int> word_count::words(const char* input) {
 
   string sinput = toLower(input);
 
-  regex word_regex = regex("[a-z0-9']+");
+  regex word_regex = regex("\\w+('\\w+)?");
 
   auto words_begin = sregex_iterator(sinput.begin(), sinput.end(), word_regex);
   auto words_end = sregex_iterator();
 
   for (sregex_iterator i = words_begin; i != words_end; i++) {
-    string word = boost::trim_copy_if((*i).str(), boost::is_any_of("'"));
-
-    if (word.length() > 0) {
-      int word_freq = freqs[word] || 0;
-      freqs[word]++;
-    }
+    string word = (*i).str();
+    int word_freq = freqs[word] || 0;
+    freqs[word]++;
   }
 
   return freqs;
