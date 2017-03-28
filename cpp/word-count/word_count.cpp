@@ -1,20 +1,42 @@
 #include "word_count.h"
+#include <iterator>
+#include <regex>
+#include <sstream>
+#include <string>
+#include <boost/algorithm/string.hpp>
 
-using std::map;
-using std::string;
+using namespace std;
 
-const map<string, int> word_count::words(const char*) {
+string toLower(string str) {
+  locale loc;
+  ostringstream result;
+
+  for (char c : str) {
+    result << tolower(c, loc);
+  }
+
+  return result.str();
+}
+
+const map<string, int> word_count::words(const char* input) {
   map<string, int> freqs;
+
+  string sinput = toLower(input);
+
+  regex word_regex = regex("[a-z0-9']+");
+
+  auto words_begin = sregex_iterator(sinput.begin(), sinput.end(), word_regex);
+  auto words_end = sregex_iterator();
+
+  for (sregex_iterator i = words_begin; i != words_end; i++) {
+    string word = boost::trim_copy_if((*i).str(), boost::is_any_of("'"));
+
+    if (word.length() > 0) {
+      int word_freq = freqs[word] || 0;
+      freqs[word]++;
+    }
+  }
+
   return freqs;
 }
 
-/*
- * NOTE: I'm blocked by a bug between Boost 1.59+ and require_equal_containers.h
- * (exercism's custom header to do things like print maps).
- *
- * Can't compile until this is sorted out, not enough of a C++ wizard myself to
- * figure it out and contribute a fix.
- *
- * https://github.com/exercism/xcpp/issues/61
- *
- * */
