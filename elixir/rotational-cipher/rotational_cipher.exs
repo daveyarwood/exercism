@@ -12,9 +12,9 @@ defmodule RotationalCipher do
     |> to_charlist
     |> Enum.map(fn(char) ->
       cond do
-        ?a <= char && char <= ?z ->
+        char in ?a..?z ->
           ?a + rem(char + shift - ?a, 26)
-        ?A <= char && char <= ?Z ->
+        char in ?A..?Z ->
           ?A + rem(char + shift - ?A, 26)
         :else ->
           char
