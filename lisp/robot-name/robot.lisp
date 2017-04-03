@@ -13,12 +13,22 @@
 (defun build-robot ()
   (make-instance 'robot))
 
+(defparameter *name-history* ())
+
 (defun random-robot-name ()
-  (concatenate 'string
-               (loop repeat 2
-                     collect (char "ABCDEFGHIJKLMNOPQRSTUVWXYZ" (random 26)))
-               (loop repeat 3
-                     collect (char "0123456789" (random 10)))))
+  (let ((new-name (concatenate
+                    'string
+                    (loop
+                      repeat 2
+                      collect (char "ABCDEFGHIJKLMNOPQRSTUVWXYZ" (random 26)))
+                    (loop
+                      repeat 3
+                      collect (char "0123456789" (random 10))))))
+    (if (member new-name *name-history*)
+      (random-robot-name)
+      (progn
+        (setf *name-history* (adjoin new-name *name-history*))
+        new-name))))
 
 (defmethod robot-name :before ((r robot))
   (when (not (slot-value r 'name))
