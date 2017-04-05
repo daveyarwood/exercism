@@ -12,7 +12,7 @@ const map<string, int> word_count::words(const char* input) {
   // cast char* to string
   string sinput = input;
   // toLower the string
-  std::transform(sinput.begin(), sinput.end(), sinput.begin(), ::tolower);
+  transform(sinput.begin(), sinput.end(), sinput.begin(), ::tolower);
 
   regex word_regex = regex("\\w+('\\w+)?");
 
