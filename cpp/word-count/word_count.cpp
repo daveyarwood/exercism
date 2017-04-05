@@ -6,21 +6,13 @@
 
 using namespace std;
 
-string toLower(string str) {
-  locale loc;
-  ostringstream result;
-
-  for (char c : str) {
-    result << tolower(c, loc);
-  }
-
-  return result.str();
-}
-
 const map<string, int> word_count::words(const char* input) {
   map<string, int> freqs;
 
-  string sinput = toLower(input);
+  // cast char* to string
+  string sinput = input;
+  // toLower the string
+  std::transform(sinput.begin(), sinput.end(), sinput.begin(), ::tolower);
 
   regex word_regex = regex("\\w+('\\w+)?");
 
