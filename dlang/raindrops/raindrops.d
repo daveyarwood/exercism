@@ -5,15 +5,15 @@ string convert(int n) {
   char[] result;
 
   if (n % 3 == 0) {
-    result = result ~ "Pling";
+    result ~= "Pling";
   }
 
   if (n % 5 == 0) {
-    result = result ~ "Plang";
+    result ~= "Plang";
   }
 
   if (n % 7 == 0) {
-    result = result ~ "Plong";
+    result ~= "Plong";
   }
 
   if (result.length == 0) {
