@@ -2,7 +2,7 @@ import std.conv;
 import std.stdio;
 
 string convert(int n) {
-  char[] result;
+  string result;
 
   if (n % 3 == 0) {
     result ~= "Pling";
@@ -16,10 +16,10 @@ string convert(int n) {
     result ~= "Plong";
   }
 
-  if (result.length == 0) {
-    return to!string(n);
+  if (result == "") {
+    return n.to!string;
   } else {
-    return result.idup;
+    return result;
   }
 }
 
