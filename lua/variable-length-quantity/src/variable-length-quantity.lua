@@ -1,6 +1,13 @@
+-- debug
+function print_table(table)
+  for i,v in ipairs(table) do
+    print(i, ":", v)
+  end
+end
+
 local vlq = {}
 
-local function reverse_table(table)
+function reverse_table(table)
   local reversed_table = {}
 
   for i, v in ipairs(table) do
@@ -11,7 +18,7 @@ local function reverse_table(table)
 end
 
 -- represent a number as a string of 0s and 1s
-local function in_binary(number)
+function in_binary(number)
   local num_bits = math.max(1, select(2, math.frexp(number)))
   local bits = {}
 
@@ -24,25 +31,25 @@ local function in_binary(number)
   return table.concat(bits)
 end
 
--- FIXME: returning an empty table
 -- split a binary number string into groups of 7 bits each, padding the largest
 -- group with 0's
 --
 -- e.g.: 10001001 => 0000001 0001001
-local function seven_bit_groups(binary_str)
+function seven_bit_groups(binary_str)
   local bit_groups_reversed = {}
   local bit_group_reversed = {}
 
-  for i = binary_str:len(), 1, -1 do
-    local j = #bit_group_reversed + 1
-
+  for i = #binary_str, 1, -1 do
     if #bit_group_reversed < 7 then
-      table.insert(bit_group_reversed, tonumber(binary_str[i]))
+      table.insert(bit_group_reversed, tonumber(binary_str:sub(i,i)))
     else
+      -- add completed bit group to result
       local bit_group = reverse_table(bit_group_reversed)
       table.insert(bit_groups_reversed, bit_group)
 
+      -- start a new bit group
       bit_group_reversed = {}
+      table.insert(bit_group_reversed, tonumber(binary_str:sub(i,i)))
     end
   end
 
@@ -61,7 +68,7 @@ end
 -- given a series of 7-bit groups, assigns 1 as the most significant bit (MSB)
 -- for every group except for the last one, which is assigned an MSB of 0,
 -- signaling that it is the last byte in the variable length integer
-local function assign_msbs(bit_groups)
+function assign_msbs(bit_groups)
   local bytes = {}
 
   for i, bit_group in ipairs(bit_groups) do
@@ -82,24 +89,58 @@ local function assign_msbs(bit_groups)
   return bytes
 end
 
-function vlq.encode(numbers)
-  -- TODO: handle encoding multiple values
-  local number = numbers[1]
-
+function encode_number(number)
   local binary_str = in_binary(number)
-  local bit_groups = seven_bit_groups(binary_str)
-  local byte_strs = assign_msbs(bit_groups)
+  local bit_groups = assign_msbs(seven_bit_groups(binary_str))
+
+  local byte_strs = {}
+  for i, bit_group in ipairs(bit_groups) do
+    byte_strs[i] = table.concat(bit_group)
+  end
 
   local bytes = {}
   for i, v in ipairs(byte_strs) do
-    bytes[i] = tonumber(byte_strs[i], 2)
+    bytes[i] = tonumber(v, 2)
   end
 
   return bytes
 end
 
-function vlq.decode(number)
-  -- TODO
+function vlq.encode(numbers)
+  local bytes = {}
+
+  for i, number in ipairs(numbers) do
+    for i, byte in ipairs(encode_number(number)) do
+      table.insert(bytes, byte)
+    end
+  end
+
+  return bytes
+end
+
+-- FIXME: not working
+function vlq.decode(bytes)
+  local numbers = {}
+  local number = ""
+
+  for i, byte in ipairs(bytes) do
+    local binary_str = in_binary(byte)
+
+    for i = 2, #binary_str do
+      number = number .. binary_str:sub(i,i)
+    end
+
+    if binary_str:sub(1,1) == "1" then
+      table.insert(numbers, tonumber(number, 2))
+      number = ""
+    end
+  end
+
+  if #number > 0 then
+    error("incomplete byte sequence")
+  end
+
+  return numbers
 end
 
 return vlq
