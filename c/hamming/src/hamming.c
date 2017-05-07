@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 int compute(char* a, char* b) {
   int difference = 0;
 
