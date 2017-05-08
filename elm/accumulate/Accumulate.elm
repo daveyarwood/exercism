@@ -1,6 +1,6 @@
 module Accumulate exposing (..)
 
-accumulate : (a -> a) -> List a -> List a
+accumulate : (a -> b) -> List a -> List b
 accumulate f coll =
   case coll of
     []    -> []
