@@ -34,7 +34,8 @@ fn limited_multiples(limit: i64, bases: Vec<i64>) -> HashSet<i64> {
     bases.iter()
          .fold(HashSet::new(), |overall, base|
                overall.union(&one_limited_multiples(limit, base))
-               .cloned().collect::<HashSet<i64>>())
+               .cloned()
+               .collect::<HashSet<i64>>())
 }
 
 pub fn sum_of_multiples(limit: i64, numbers: &Vec<i64>) -> i64 {
