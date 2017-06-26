@@ -16,6 +16,6 @@
 
 ;; Returns the list of perfect numbers from 1 up to (but not including) `limit`.
 (define (perfect-numbers limit)
-  (for/list ([n (in-range (add1 limit))]
-             #:when (and (positive? n) (perfect? n)))
+  (for/list ([n (in-range 1 (add1 limit))]
+             #:when (perfect? n))
     n))
