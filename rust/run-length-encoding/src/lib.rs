@@ -1,4 +1,5 @@
 use std::iter::{Peekable,repeat};
+use std::str::Chars;
 
 struct Unit {
     number: Option<i64>,
@@ -13,18 +14,17 @@ impl Unit {
     }
 }
 
-struct ToEncode {
-    // error[E0277]: the trait bound `std::iter::Iterator<Item=char> + 'static: std::marker::Sized` is not satisfied
-    chars: Peekable<Iterator<Item=char>>
+struct ToEncode<'a> {
+    chars: Peekable<Chars<'a>>
 }
 
-impl ToEncode {
+impl<'a> ToEncode<'a> {
     pub fn new(input: &str) -> ToEncode {
         ToEncode { chars: input.chars().peekable() }
     }
 }
 
-impl Iterator for ToEncode {
+impl<'a> Iterator for ToEncode<'a> {
     type Item = Unit;
 
     fn next(&mut self) -> Option<Unit> {
@@ -32,7 +32,7 @@ impl Iterator for ToEncode {
             None => None,
             Some(first_char) => {
                 let (chunk, leftover) = self.chars
-                                            .partition(|&c| c == first_char);
+                                            .partition(|&c| &c == first_char);
                 Some(Unit { number: chunk.len(), character: first_char })
             }
         }
