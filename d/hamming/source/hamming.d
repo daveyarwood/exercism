@@ -1,16 +1,13 @@
 module hamming;
 
-int distance(string a, string b) {
+import std.range : zip;
+import std.algorithm.searching : count;
+
+ulong distance(string a, string b) {
   if (a.length != b.length)
     throw new Exception("Strands must be the same length.");
 
-  int distance = 0;
-
-  for (int i = 0; i < a.length; i++) {
-    if (a[i] != b[i]) distance++;
-  }
-
-  return distance;
+  return zip(a, b).count!(pair => pair[0] != pair[1]);
 }
 
 unittest
