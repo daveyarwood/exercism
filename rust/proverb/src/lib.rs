@@ -14,7 +14,7 @@ fn build_last_line(things: Vec<&str>) -> String {
 pub fn build_proverb(things: Vec<&str>) -> String {
     let lines: String = things.windows(2)
                               .map(|strs| build_line(strs[0], strs[1]))
-                              .collect::<String>();
+                              .collect();
 
     let last_line: String = build_last_line(things);
 
