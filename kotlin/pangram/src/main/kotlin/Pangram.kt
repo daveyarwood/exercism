@@ -1,7 +1,7 @@
 object Pangrams {
-  val ALPHABET = CharRange('a', 'z')
-
   fun isPangram(str: String): Boolean {
-    return ALPHABET.all { str.toLowerCase().contains(it) }
+    val thisString = str.toLowerCase().toSet()
+    val lowercaseLetters = ('a'..'z').toSet()
+    return thisString.containsAll(lowercaseLetters)
   }
 }
