@@ -5,15 +5,15 @@
   [n]
   (case n
     -1 (bottles 99)
-    0  "No more bottles of beer"
+    0  "no more bottles of beer"
     1  "1 bottle of beer"
     (format "%s bottles of beer" n)))
 
 (defn- part-a
   [n]
   (format "%s on the wall, %s."
-          (bottles n)
-          (str/lower-case (bottles n))))
+          (str/capitalize (bottles n))
+          (bottles n)))
 
 (defn- part-b
   [n]
@@ -22,7 +22,7 @@
             0 "Go to the store and buy some more"
             1 "Take it down and pass it around"
             "Take one down and pass it around")
-          (str/lower-case (bottles (dec n)))))
+          (bottles (dec n))))
 
 (defn verse
   "Produces the verse beginning with \"`n` bottles of beer on the wall...\"."
