@@ -3,8 +3,10 @@ class Binary
 
   toDecimal: () ->
     @string.split('').reverse().reduce ((value, character, index) ->
-      digit = if character in ['0', '1'] then Number(character) else 0
-      value + digit * Math.pow(2, index)),
+      if character in ['0', '1']
+        value + Number(character) * Math.pow(2, index)
+      else
+        return 0),
       0
 
 module.exports = Binary
