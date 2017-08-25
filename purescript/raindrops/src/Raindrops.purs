@@ -15,8 +15,9 @@ rules = [
 raindrops :: Int -> String
 raindrops n =
   let
-    reducer acc (Tuple factor sound) =
-      if n `mod` factor == 0 then acc <> sound else acc
+    reducer acc (Tuple factor sound)
+      | n `mod` factor == 0 = acc <> sound
+      | otherwise = acc
     sounds = foldl reducer "" rules
   in
     if sounds == "" then show n else sounds
