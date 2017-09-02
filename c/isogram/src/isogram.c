@@ -9,14 +9,13 @@ int isIsogram(char* str) {
 
   for (char* c = str; *c; c++) {
     int charCode;
-    // If uppercase, convert to lowercase by adding 32.
-    if ((int)'A' <= *c && *c <= (int)'Z')
+    if ('A' <= *c && *c <= 'Z')
+      // convert to lowercase
       charCode = *c + 32;
-    // If lowercase, we're ready to check if it's been used.
-    else if ((int)'a' <= *c && *c <= (int)'z')
+    else if ('a' <= *c && *c <= 'z')
       charCode = *c;
-    // If any other character (e.g. '-'), skip it.
     else
+      // character is not a letter, so skip it
       continue;
 
     if (usedLetters[charCode])
