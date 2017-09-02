@@ -1,5 +1,4 @@
 #include "isogram.h"
-#include <stdio.h>
 
 int isIsogram(char* str) {
   // A mapping of character codes to a bit indicating whether or not that letter
