@@ -9,7 +9,6 @@ proc validatePositions(white, black: tuple[rank, file: int]) =
   if white == black:
     raise newException(ValueError, "White and black queens in the same position.")
 
-
 # TASK 1: PRINTING A BOARD
 
 proc printPosition(
