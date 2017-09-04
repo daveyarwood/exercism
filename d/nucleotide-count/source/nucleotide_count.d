@@ -1,57 +1,41 @@
-
 module nucleotide_count;
 
 import std.string;
 import std.array;
+import std.algorithm: canFind;
 import std.algorithm.sorting: sort;
 import std.algorithm.comparison: equal;
 
-/*
-  I'm getting these errors:
-
-  source/nucleotide_count.d(50,36): Error: mutable method nucleotide_count.Counter.nucleotideCounts is not callable using a const object
-  source/nucleotide_count.d(61,21): Error: mutable method nucleotide_count.Counter.countOne is not callable using a const object
-  source/nucleotide_count.d(68,21): Error: mutable method nucleotide_count.Counter.countOne is not callable using a const object
-  source/nucleotide_count.d(76,42): Error: mutable method nucleotide_count.Counter.nucleotideCounts is not callable using a const object
-  source/nucleotide_count.d(85,21): Error: mutable method nucleotide_count.Counter.countOne is not callable using a const object
-  source/nucleotide_count.d(93,14): Error: mutable method nucleotide_count.Counter.countOne is not callable using a const object
-  source/nucleotide_count.d(95,21): Error: mutable method nucleotide_count.Counter.countOne is not callable using a const object
-  source/nucleotide_count.d(104,27): Error: mutable method nucleotide_count.Counter.countOne is not callable using a const object
-  source/nucleotide_count.d(112,36): Error: mutable method nucleotide_count.Counter.nucleotideCounts is not callable using a const object
-
-  Seems like the issue is that I'm not correctly qualifying the various
-  properties and methods in my class (and/or perhaps the class itself) as
-  immutable and/or pure.
-
-  References I found:
-  https://stackoverflow.com/questions/29089738/mutable-method-x-this-is-not-callable-using-a-immutable-object-error-in-d
-  https://dlang.org/spec/const3.html
-
-  This isn't 100% helpful though, as I'm still fighting the compiler.
-
-  I can't seem to find the correct places to put immutable and/or pure, and I'm
-  not understanding what the distinction is between the immutable and pure
-  qualifiers.
-
-  Any help here would be greatly appreciated!
-*/
-
 class Counter {
+  static immutable VALID_NUCLEOTIDES = ['G', 'C', 'T', 'A'];
+
   string strand;
   ulong[char] counts;
 
-  this(string s) pure {
+  this(string s) {
     strand = s;
-    // TODO: iterate through strand and count nucleotides
+
     ulong[char] cs;
+
+    foreach(char c; VALID_NUCLEOTIDES) {
+      cs[c] = 0;
+    }
+
+    foreach(char c; s) {
+      cs[c] += 1;
+    }
+
     counts = cs;
   }
 
-  ulong[char] nucleotideCounts() pure {
+  const(ulong[char]) nucleotideCounts() const {
     return counts;
   }
 
-  ulong countOne(char nucleotide) pure {
+  ulong countOne(char nucleotide) const {
+    if (!VALID_NUCLEOTIDES.canFind(nucleotide))
+      throw new Exception("Invalid nucleotide.");
+
     return counts[nucleotide];
   }
 }
