@@ -5,7 +5,7 @@ pub fn find() -> Option<i64> {
         for b in 1..c {
             for a in 1..b {
                 if squared(a) + squared(b) == squared(c) && a + b + c == 1000 {
-                    return Some(a * b * c)
+                    return Some(a * b * c);
                 }
             }
         }
