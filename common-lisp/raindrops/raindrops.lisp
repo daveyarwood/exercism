@@ -10,14 +10,12 @@
     (7 "Plong")))
 
 (defun convert (n)
-  (let ((sounds (apply #'concatenate
-                       'string
-                       (mapcar #'(lambda (rule)
-                                   (destructuring-bind (factor sound) rule
-                                     (when (zerop (mod n factor))
-                                       sound)))
-                               *rules*))))
-    (if (zerop (length sounds))
-      (write-to-string n)
-      sounds)))
+  (let ((sounds (mapcar #'(lambda (rule)
+                            (destructuring-bind (factor sound) rule
+                              (when (zerop (mod n factor))
+                                sound)))
+                        *rules*)))
+    (if (some #'identity sounds)
+      (apply #'concatenate 'string sounds)
+      (write-to-string n))))
 
