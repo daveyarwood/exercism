@@ -1,15 +1,18 @@
 (defmodule bob
   (export (response-for 1)))
 
+(defun match? (str regex)
+  (!= 'nomatch (re:run str regex)))
+
 (defun shouting? (utterance)
-  (and (!= 'nomatch (re:run utterance "\\p{Lu}"))
-       (== 'nomatch (re:run utterance "\\p{Ll}"))))
+  (and (match? utterance "\\p{Lu}")
+       (not (match? utterance "\\p{Ll}"))))
 
 (defun question? (utterance)
-  (!= 'nomatch (re:run utterance "\\?$")))
+  (match? utterance "\\?$"))
 
 (defun silence? (utterance)
-  (!= 'nomatch (re:run utterance "^\\s*$")))
+  (match? utterance "^\\s*$"))
 
 (defun response-for (utterance)
   (cond
@@ -17,5 +20,4 @@
     ((question? utterance) "Sure.")
     ((silence? utterance)  "Fine. Be that way!")
     (else                  "Whatever.")))
-
 
