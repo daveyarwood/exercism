@@ -16,6 +16,6 @@
     ((shouting? utterance) "Whoa, chill out!")
     ((question? utterance) "Sure.")
     ((silence? utterance)  "Fine. Be that way!")
-    ('true                 "Whatever.")))
+    (else                  "Whatever.")))
 
 
