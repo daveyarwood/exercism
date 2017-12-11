@@ -2,21 +2,17 @@ package bob
 
 import "strings"
 
-func trimWhitespace(s string) string {
-	return strings.Trim(s, " \t\n\r")
-}
-
 func shouting(remark string) bool {
 	return strings.ContainsAny(remark, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") &&
 		!strings.ContainsAny(remark, "abcdefghijklmnopqrstuvwxyz")
 }
 
 func asking(remark string) bool {
-	return strings.HasSuffix(trimWhitespace(remark), "?")
+	return strings.HasSuffix(strings.TrimSpace(remark), "?")
 }
 
 func silence(remark string) bool {
-	return trimWhitespace(remark) == ""
+	return strings.TrimSpace(remark) == ""
 }
 
 func Hey(remark string) string {
