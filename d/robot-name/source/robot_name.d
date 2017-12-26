@@ -1,24 +1,23 @@
 
 module robot;
 
-import std.algorithm;
 import std.ascii;
 import std.random;
 import std.regex;
 import std.stdio;
 
 class Robot {
-  static string[] nameHistory = [];
+  static bool[string] nameHistory;
 
   static string generateName() {
     string name = "";
     foreach (_; 0 .. 2) name ~= uppercase[uniform(0, $)];
     foreach (_; 0 .. 3) name ~= digits[uniform(0, $)];
 
-    if (nameHistory.canFind(name))
+    if (name in nameHistory)
       return generateName();
 
-    nameHistory ~= name;
+    nameHistory[name] = true;
     return name;
   }
 
