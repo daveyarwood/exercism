@@ -7,7 +7,7 @@ skipping=no
 for (( i = 0; i < ${#input}; i++ )); do
   char="${input:$i:1}"
 
-  if [[ $skipping = 'yes' ]] && [[ $char =~ ' ' ]] || [[ $char = '-' ]]; then
+  if [[ $skipping = 'yes' ]] && [[ $char =~ \ |- ]]; then
     skipping=no
   elif [[ $skipping = 'no' ]] && [[ $char =~ [A-Za-z] ]]; then
     output+=$(echo $char | tr '[[:lower:]]' '[[:upper:]]')
