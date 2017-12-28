@@ -13,16 +13,7 @@ sub is_anagram {
 
 sub match {
   my ($word, @candidates) = @_;
-
-  my @matches;
-
-  foreach(@candidates) {
-    if (is_anagram $_, $word) {
-      push @matches, $_;
-    }
-  }
-
-  return \@matches;
+  return [ grep { is_anagram $_, $word } @candidates ];
 }
 
 1;
