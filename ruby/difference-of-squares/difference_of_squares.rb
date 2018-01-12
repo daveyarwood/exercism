@@ -4,15 +4,15 @@ end
 
 class Squares
   def initialize(n)
-    @n = n
+    @range = 0..n
   end
 
   def sum_of_squares
-    (0..@n).reduce {|sum, x| sum + x**2}
+    @range.reduce {|sum, x| sum + x**2}
   end
 
   def square_of_sum
-    (0..@n).reduce(:+) ** 2
+    @range.reduce(:+) ** 2
   end
 
   def difference
