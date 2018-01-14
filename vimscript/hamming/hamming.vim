@@ -5,13 +5,10 @@ function! Hamming(strand1, strand2)
     throw "The two strands must have the same length."
   endif
 
-  let s1 = split(a:strand1, '\zs')
-  let s2 = split(a:strand2, '\zs')
-
   let distance = 0
 
-  for i in range(0, strlen(a:strand1) - 1)
-    if get(s1, i) !=# get(s2, i)
+  for i in range(strlen(a:strand1))
+    if a:strand1[i] !=# a:strand2[i]
       let distance += 1
     endif
   endfor
