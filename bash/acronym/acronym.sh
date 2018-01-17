@@ -10,7 +10,7 @@ for (( i = 0; i < ${#input}; i++ )); do
   if [[ $skipping = 'yes' ]] && [[ $char =~ \ |- ]]; then
     skipping=no
   elif [[ $skipping = 'no' ]] && [[ $char =~ [A-Za-z] ]]; then
-    output+=$(echo $char | tr '[[:lower:]]' '[[:upper:]]')
+    output+="${char^^}" # $char with all letters uppercased
     skipping=yes
   fi
 done
