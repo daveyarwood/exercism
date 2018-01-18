@@ -3,12 +3,9 @@ module BookKeeping
 end
 
 module Pangram
-  ALPHABET = 'abcdefghijklmnopqrstuvwxyz'.split('')
-
   def self.pangram?(str)
     characters = str.split('')
-
-    ALPHABET.all? do |letter|
+    ('a'..'z').all? do |letter|
       characters.any? {|character| character.downcase == letter}
     end
   end
