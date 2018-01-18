@@ -37,8 +37,6 @@ class Alphabet {
   }
 }
 
-// Cipher class
-
 class Cipher {
   static randomKey() {
     return repeatedly(100, () => Alphabet.randomLetter()).join('');
