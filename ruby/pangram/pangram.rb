@@ -4,7 +4,7 @@ end
 
 module Pangram
   def self.pangram?(str)
-    characters = str.downcase.split('')
+    characters = str.downcase
     ('a'..'z').all? {|letter| characters.include? letter}
   end
 end
