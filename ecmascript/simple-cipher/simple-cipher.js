@@ -1,5 +1,3 @@
-// Helper functions
-
 // Returns the range of integers from 0 to n (exclusive).
 function range(n) {
   return [...Array(n).keys()];
