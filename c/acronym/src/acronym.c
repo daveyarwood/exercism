@@ -6,7 +6,7 @@
 char* abbreviate(const char* phrase) {
   if (phrase == NULL || strlen(phrase) == 0) return NULL;
 
-  char* acronym = (char*)malloc(sizeof(char) * strlen(phrase));
+  char* acronym = malloc(sizeof(phrase));
   int currentIndex = -1;
   int skipping = 0;
 
@@ -23,7 +23,6 @@ char* abbreviate(const char* phrase) {
 
   *(acronym + ++currentIndex) = '\0';
 
-  printf("%s\n", acronym);
   return acronym;
 }
 
