@@ -5,6 +5,6 @@ end
 module Pangram
   def self.pangram?(str)
     characters = str.downcase
-    ('a'..'z').all? {|letter| characters.include? letter}
+    ('a'..'z').all?(&characters.method(:include?))
   end
 end
