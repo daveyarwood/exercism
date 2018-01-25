@@ -41,7 +41,7 @@ class PrimeGenerator implements Iterable {
 class NthPrime {
   static nth(int n) {
     if (n > 0)
-      return new PrimeGenerator().getAt(n - 1)
+      new PrimeGenerator().getAt(n - 1)
     else
       throw new ArithmeticException("We're starting at 1 for reasons.")
   }
