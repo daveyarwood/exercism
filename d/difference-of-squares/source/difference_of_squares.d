@@ -4,7 +4,7 @@ import std.math;
 import std.range;
 import std.stdio;
 
-struct Squares {
+struct squares {
   private int end;
 
   this(int n) {
@@ -22,10 +22,6 @@ struct Squares {
   @property int difference() {
     return squareOfSum - sumOfSquares;
   }
-}
-
-Squares squares(int n) {
-  return Squares(n);
 }
 
 unittest {
