@@ -12,11 +12,11 @@ struct Squares {
   }
 
   @property int squareOfSum() {
-    return iota(1, end + 1).sum().pow(2);
+    return iota(1, end + 1).sum() ^^ 2;
   }
 
   @property int sumOfSquares() {
-    return iota(1, end + 1).map!(n => n.pow(2)).sum();
+    return iota(1, end + 1).map!(n => n ^^ 2).sum();
   }
 
   @property int difference() {
