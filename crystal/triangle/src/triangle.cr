@@ -1,9 +1,5 @@
 class Triangle
-  @sides : Array(Int32)
-
-  def initialize(sides : Array(Int32))
-    @sides = sides.sort
-  end
+  def initialize(@sides : Array(Int32)); end
 
   def equilateral? : Bool
     return false if violates_triangle_inequality?
@@ -23,6 +19,6 @@ class Triangle
   def violates_triangle_inequality? : Bool
     @sides.size != 3 ||
     @sides.any? {|x| x == 0} ||
-    @sides[0] + @sides[1] < @sides[2]
+    @sides.permutations.any? {|sides| sides[0] + sides[1] < sides[2]}
   end
 end
