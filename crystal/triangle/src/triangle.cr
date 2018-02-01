@@ -21,6 +21,7 @@ class Triangle
   end
 
   def violates_triangle_inequality?
+    @sides.size != 3 ||
     @sides.any? {|x| x == 0} ||
     @sides[0] + @sides[1] < @sides[2]
   end
