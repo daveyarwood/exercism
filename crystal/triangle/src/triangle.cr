@@ -5,22 +5,22 @@ class Triangle
     @sides = sides.sort
   end
 
-  def equilateral?
+  def equilateral? : Bool
     return false if violates_triangle_inequality?
     @sides.uniq.size == 1
   end
 
-  def isosceles?
+  def isosceles? : Bool
     return false if violates_triangle_inequality?
     1 <= @sides.uniq.size <= 2
   end
 
-  def scalene?
+  def scalene? : Bool
     return false if violates_triangle_inequality?
     @sides.uniq.size == 3
   end
 
-  def violates_triangle_inequality?
+  def violates_triangle_inequality? : Bool
     @sides.size != 3 ||
     @sides.any? {|x| x == 0} ||
     @sides[0] + @sides[1] < @sides[2]
