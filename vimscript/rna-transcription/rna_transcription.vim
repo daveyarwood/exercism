@@ -14,20 +14,7 @@
 "   UGCACCAGAAUU
 "
 function! ToRna(strand) abort
-  let dna_to_rna = {
-        \ 'G': 'C',
-        \ 'C': 'G',
-        \ 'T': 'A',
-        \ 'A': 'U'
-        \ }
-
-  let result = ''
-
-  for dna in split(a:strand, '\zs')
-    if !has_key(dna_to_rna, dna) | return '' | endif
-    let result .= dna_to_rna[dna]
-  endfor
-
-  return result
+  if a:strand !~# '^[GCTA]\+$' | return '' | endif
+  return tr(a:strand, 'GCTA', 'CGAU')
 endfunction
 
