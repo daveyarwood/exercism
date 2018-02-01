@@ -1,30 +1,27 @@
 class Triangle
-  # side lengths
-  @a : Int32
-  @b : Int32
-  @c : Int32
+  @sides : Array(Int32)
 
-  def initialize(sides : Array(Number))
-    @a, @b, @c = sides
+  def initialize(sides : Array(Int32))
+    @sides = sides.sort
   end
 
   def equilateral?
     return false if violates_triangle_inequality?
-    @a == @b == @c
+    @sides.uniq.size == 1
   end
 
   def isosceles?
     return false if violates_triangle_inequality?
-    @a == @b || @b == @c || @c == @a
+    1 <= @sides.uniq.size <= 2
   end
 
   def scalene?
     return false if violates_triangle_inequality?
-    @a != @b != @c != @a
+    @sides.uniq.size == 3
   end
 
   def violates_triangle_inequality?
-    @a == 0 || @b == 0 || @c == 0 ||
-    @a + @b < @c || @b + @c < @a || @c + @a < @b
+    @sides.any? {|x| x == 0} ||
+    @sides[0] + @sides[1] < @sides[2]
   end
 end
