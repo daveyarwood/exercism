@@ -23,8 +23,7 @@ function! ToRna(strand) abort
 
   let result = ''
 
-  for i in range(strlen(a:strand))
-    let dna = a:strand[i]
+  for dna in split(a:strand, '\zs')
     if !has_key(dna_to_rna, dna) | return '' | endif
     let result .= dna_to_rna[dna]
   endfor
