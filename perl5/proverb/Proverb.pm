@@ -1,7 +1,7 @@
+package Proverb;
+
 use strict;
 use warnings;
-
-package Proverb;
 
 sub proverb {
   my ($things, $qualifier) = @_;
