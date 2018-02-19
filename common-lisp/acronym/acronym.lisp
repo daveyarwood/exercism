@@ -8,7 +8,5 @@
 (ql:quickload :cl-ppcre)
 
 (defun acronym (phrase)
-  (let* ((words (cl-ppcre:split "[- ]" phrase))
-         (initials (mapcar #'(lambda (word) (char-upcase (char word 0)))
-                           words)))
-    (coerce initials 'string)))
+  (map 'string #'(lambda (word) (char-upcase (char word 0)))
+       (cl-ppcre:split "[- ]" phrase)))
