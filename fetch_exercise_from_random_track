@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+tracks = `exercism tracks`.lines.map do |line|
+  unless /\d+ problems/ !~ line
+    name, id, problems = line.strip.split(/\s{2,}/)
+    {name: name, id: id, problems: /\d+/.match(problems).to_s.to_i}
+  end
+end.compact
+
+track = tracks.sample
+puts "Fetching the #{track[:name]} track..."
+system "exercism fetch #{track[:id]}"
+
