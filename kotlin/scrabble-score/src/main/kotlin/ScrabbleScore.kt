@@ -29,6 +29,6 @@ val LETTER_SCORES = mapOf(
 
 object ScrabbleScore {
   fun scoreWord(word: String): Int {
-    return word.map {LETTER_SCORES[it.toUpperCase()]!!}.sum()
+    return word.sumBy {LETTER_SCORES[it.toUpperCase()]!!}
   }
 }
