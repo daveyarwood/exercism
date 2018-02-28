@@ -5,8 +5,8 @@
   ((pred ()) ())
   ((pred (cons x more))
    (if (funcall pred x)
-     (cons x (funcall #'keep/2 pred more))
-     (funcall #'keep/2 pred more))))
+     (cons x (keep pred more))
+     (keep pred more))))
 
 (defun discard (pred coll)
-  (funcall #'keep/2 (lambda (x) (not (funcall pred x))) coll))
+  (keep (lambda (x) (not (funcall pred x))) coll))
