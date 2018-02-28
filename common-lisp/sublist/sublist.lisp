@@ -11,8 +11,8 @@
    If `list1` contains `list2`, returns \"superlist\".
    If `list1` is identical to `list2`, returns \"equal\".
    Otherwise, returns \"unequal\"."
-  (cond ((equal list1 list2)    "equal")
+  (cond ((equal list1 list2)  "equal")
         ((search list1 list2) "sublist")
         ((search list2 list1) "superlist")
-        (t                      "unequal")))
+        (t                    "unequal")))
 
