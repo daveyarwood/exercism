@@ -6,38 +6,29 @@ import std.typecons;
 
 alias RomanNumeral = Tuple!(int, "arabic", string, "roman");
 
-RomanNumeral romanNumeral(int arabic, string roman) {
-  return tuple!("arabic", "roman")(arabic, roman);
-}
-
-Array!RomanNumeral romanNumerals() {
-  return make!(Array!RomanNumeral)(
-    romanNumeral(1000, "M"),
-    romanNumeral(900, "CM"),
-    romanNumeral(500, "D"),
-    romanNumeral(400, "CD"),
-    romanNumeral(100, "C"),
-    romanNumeral(90, "XC"),
-    romanNumeral(50, "L"),
-    romanNumeral(40, "XL"),
-    romanNumeral(10, "X"),
-    romanNumeral(9, "IX"),
-    romanNumeral(5, "V"),
-    romanNumeral(4, "IV"),
-    romanNumeral(1, "I")
-  );
-}
+RomanNumeral[] romanNumerals = [
+  RomanNumeral(1000, "M"),
+  RomanNumeral(900, "CM"),
+  RomanNumeral(500, "D"),
+  RomanNumeral(400, "CD"),
+  RomanNumeral(100, "C"),
+  RomanNumeral(90, "XC"),
+  RomanNumeral(50, "L"),
+  RomanNumeral(40, "XL"),
+  RomanNumeral(10, "X"),
+  RomanNumeral(9, "IX"),
+  RomanNumeral(5, "V"),
+  RomanNumeral(4, "IV"),
+  RomanNumeral(1, "I")
+];
 
 string convert(int n) {
   string result;
 
-  loop: while (n > 0) {
-    foreach (RomanNumeral r; romanNumerals()) {
-      if (n / r.arabic > 0) {
-        result ~= r.roman;
-        n -= r.arabic;
-        continue loop;
-      }
+  foreach (RomanNumeral r; romanNumerals) {
+    while (n >= r.arabic) {
+      result ~= r.roman;
+      n -= r.arabic;
     }
   }
 
