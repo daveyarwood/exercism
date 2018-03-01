@@ -5,22 +5,16 @@ import std.typecons;
 
 alias Rule = Tuple!(int, "factor", string, "sound");
 
-Rule rule(int factor, string sound) {
-  return tuple!("factor", "sound")(factor, sound);
-}
-
-Array!Rule rules() {
-  return make!(Array!Rule)(
-    rule(3, "Pling"),
-    rule(5, "Plang"),
-    rule(7, "Plong")
-  );
-}
+Rule[] rules = [
+  Rule(3, "Pling"),
+  Rule(5, "Plang"),
+  Rule(7, "Plong")
+];
 
 string convert(int n) {
   string result;
 
-  foreach (Rule r; rules())
+  foreach (Rule r; rules)
     if (n % r.factor == 0)
       result ~= r.sound;
 
