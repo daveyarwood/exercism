@@ -1,26 +1,30 @@
+import std.container;
 import std.conv;
 import std.stdio;
+import std.typecons;
+
+alias Rule = Tuple!(int, "factor", string, "sound");
+
+Rule rule(int factor, string sound) {
+  return tuple!("factor", "sound")(factor, sound);
+}
+
+Array!Rule rules() {
+  return make!(Array!Rule)(
+    rule(3, "Pling"),
+    rule(5, "Plang"),
+    rule(7, "Plong")
+  );
+}
 
 string convert(int n) {
   string result;
 
-  if (n % 3 == 0) {
-    result ~= "Pling";
-  }
+  foreach (Rule r; rules())
+    if (n % r.factor == 0)
+      result ~= r.sound;
 
-  if (n % 5 == 0) {
-    result ~= "Plang";
-  }
-
-  if (n % 7 == 0) {
-    result ~= "Plong";
-  }
-
-  if (result == "") {
-    return n.to!string;
-  } else {
-    return result;
-  }
+  return result == "" ? n.to!string : result;
 }
 
 unittest
