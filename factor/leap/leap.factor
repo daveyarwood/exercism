@@ -1,12 +1,10 @@
+USING: locals math.functions ;
 IN: leap
 
-: divisible? ( x y -- t-or-f )
-  mod zero? ;
-
 :: my-leap-year? ( year -- leap-year? )
-   year 4 divisible?
-   year 100 divisible? not
+   year 4 divisor?
+   year 100 divisor? not
    and
-   year 400 divisible?
+   year 400 divisor?
    or
    ;
