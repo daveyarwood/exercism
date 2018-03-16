@@ -11,7 +11,8 @@ private fun ruleSound(n: Int, rule: Rule): String {
 
 object Raindrops {
   fun convert(n: Int): String {
-    val sounds = RULES.fold("") { sounds, rule -> sounds + ruleSound(n, rule) }
-    return if (sounds.isNullOrEmpty()) { n.toString() } else { sounds }
+    return RULES.fold("") { sounds, rule -> sounds + ruleSound(n, rule) }.let {
+      if (it.isBlank()) { n.toString() } else { it }
+    }
   }
 }
