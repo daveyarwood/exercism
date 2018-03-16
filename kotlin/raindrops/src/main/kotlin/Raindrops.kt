@@ -6,7 +6,7 @@ val RULES: List<Rule> = listOf(Pair(3, "Pling"),
 
 private fun ruleSound(n: Int, rule: Rule): String {
   val (factor, sound) = rule
-  return if (n % factor == 0) { sound } else { "" }
+  return if (n % factor == 0) sound else ""
 }
 
 object Raindrops {
