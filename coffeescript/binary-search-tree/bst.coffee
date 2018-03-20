@@ -3,14 +3,11 @@ class TreeNode
 
   insert: (value) ->
     slot = if value > @data then 'right' else 'left'
-    if @[slot] == undefined
-      @[slot] = new TreeNode(value)
-    else
-      @[slot].insert(value)
+    @[slot]?.insert(value) or @[slot] = new TreeNode(value)
 
   each: (f) ->
-    @left.each(f) unless @left == undefined
+    @left?.each(f)
     f(@data)
-    @right.each(f) unless @right == undefined
+    @right?.each(f)
 
 module.exports = TreeNode
