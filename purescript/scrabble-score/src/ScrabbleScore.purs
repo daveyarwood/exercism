@@ -1,7 +1,7 @@
 module ScrabbleScore (scoreWord) where
 
 import Data.Char (toUpper)
-import Data.Foldable (foldl)
+import Data.Foldable (sum)
 import Data.String (toCharArray)
 import Prelude
 
@@ -35,9 +35,6 @@ scoreLetter letter = case (toUpper letter) of
   'Z' -> 10
   _   -> 0
 
-addLetterScore :: Int -> Char -> Int
-addLetterScore sum letter = sum + (scoreLetter letter)
-
 scoreWord :: String -> Int
-scoreWord = toCharArray >>> foldl addLetterScore 0
+scoreWord = toCharArray >>> map scoreLetter >>> sum
 
