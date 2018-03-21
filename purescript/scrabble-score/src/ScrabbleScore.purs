@@ -35,8 +35,9 @@ scoreLetter letter = case (toUpper letter) of
   'Z' -> 10
   _   -> 0
 
+addLetterScore :: Int -> Char -> Int
+addLetterScore sum letter = sum + (scoreLetter letter)
+
 scoreWord :: String -> Int
-scoreWord word = foldl (\sum letter -> sum + (scoreLetter letter))
-                       0
-                       (toCharArray word)
+scoreWord = toCharArray >>> foldl addLetterScore 0
 
