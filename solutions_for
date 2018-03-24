@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+CWD = File.dirname(__FILE__)
+
+exercise = ARGV[0] or raise "First argument must be the name of an exercise."
+
+Dir.chdir(File.dirname(__FILE__)) do
+  tracks = Dir.glob('*').select {|f| File.directory? f}.select do |track|
+    Dir.glob("#{track}/*").any? {|dir| dir.end_with? "/#{exercise}"}
+  end
+
+  puts "#{exercise} has been implemented in:\n\n#{tracks.join("\n")}"
+end
+
