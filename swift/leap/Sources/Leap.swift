@@ -1,16 +1,11 @@
-class Year {
-  var year: Int
-  var isLeapYear: Bool {
-    get {
-      return divisible_by(400) || (divisible_by(4) && !divisible_by(100))
-    }
-  }
+struct Year {
+  let calendarYear: Int
 
-  init(calendarYear year: Int) {
-    self.year = year
+  var isLeapYear: Bool {
+    return divisible_by(400) || (divisible_by(4) && !divisible_by(100))
   }
 
   private func divisible_by(_ n: Int) -> Bool {
-    return self.year % n == 0
+    return self.calendarYear % n == 0
   }
 }
