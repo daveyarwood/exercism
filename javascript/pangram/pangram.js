@@ -1,7 +1,7 @@
 var Pangram = function(sentence) {
   this.letters = new Set(sentence.toLowerCase()
-                   .split('')
-                   .filter(c => c.match(/[a-z]/)));
+                                 .split('')
+                                 .filter(c => c.match(/[a-z]/)));
 };
 
 Pangram.prototype.isPangram = function() {
