@@ -1,10 +1,3 @@
--- debug
-function print_table(table)
-  for i,v in ipairs(table) do
-    print(i, ":", v)
-  end
-end
-
 local vlq = {}
 
 function reverse_table(table)
@@ -15,6 +8,10 @@ function reverse_table(table)
   end
 
   return reversed_table
+end
+
+function leftpad(str, length, char)
+  return char:rep(length - #str) .. str
 end
 
 -- represent a number as a string of 0s and 1s
@@ -118,19 +115,18 @@ function vlq.encode(numbers)
   return bytes
 end
 
--- FIXME: not working
 function vlq.decode(bytes)
   local numbers = {}
   local number = ""
 
   for i, byte in ipairs(bytes) do
-    local binary_str = in_binary(byte)
+    local binary_str = leftpad(in_binary(byte), 8, "0")
 
     for i = 2, #binary_str do
       number = number .. binary_str:sub(i,i)
     end
 
-    if binary_str:sub(1,1) == "1" then
+    if binary_str:sub(1,1) == "0" then
       table.insert(numbers, tonumber(number, 2))
       number = ""
     end
