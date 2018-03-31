@@ -7,9 +7,7 @@ class Binary {
   toDecimal() {
     return this.bits
                .reverse()
-               .reduce(((value, bit, index) =>
-                         value + (bit * Math.pow(2, index))),
-                       0);
+               .reduce(((value, bit, i) => value + (bit * (2 ** i))), 0);
   }
 }
 
