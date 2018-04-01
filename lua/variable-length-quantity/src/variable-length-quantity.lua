@@ -115,28 +115,38 @@ function vlq.encode(numbers)
   return bytes
 end
 
+-- NB: I'm trying to refactor this to use bitwise arithmetic rather than
+-- represent bytes as strings of 0's and 1's.
+--
+-- I'm running into issues, though, because bitwise arithmetic operators weren't
+-- added until Lua 5.3, and despite using lenv to install and use Lua 5.3.4,
+-- when I run the tests using Busted, it apparently still thinks my Lua version
+-- is 5.1 because I'm getting this error:
+--
+-- ./src/variable-length-quantity.lua:126: unexpected symbol near '&'
+
 function vlq.decode(bytes)
-  local numbers = {}
-  local number = ""
+  local results = {}
+  local result = 0
 
   for i, byte in ipairs(bytes) do
-    local binary_str = leftpad(in_binary(byte), 8, "0")
+    -- Examine the first bit.
+    -- 1: the value continues in the next byte
+    -- 0: this is the final byte of the value
+    local continue = byte & (1 << 7) ~= 0
 
-    for i = 2, #binary_str do
-      number = number .. binary_str:sub(i,i)
-    end
+    -- The remaining 7 bits are the value of the current byte.
+    result = result + byte >> 1
 
-    if binary_str:sub(1,1) == "0" then
-      table.insert(numbers, tonumber(number, 2))
-      number = ""
+    if not continue then
+      table.insert(results, result)
+      result = 0
     end
   end
 
-  if #number > 0 then
-    error("incomplete byte sequence")
-  end
+  assert(result == 0, "incomplete byte sequence")
 
-  return numbers
+  return results
 end
 
 return vlq
