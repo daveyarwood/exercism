@@ -19,7 +19,7 @@
 
 fun rebase_impl
   (input_base: int, input_digits: int list, output_base: int): int list =
-  [0]
+  [0] (* TODO: implement. Trying to fix the compiler error above first. *)
 
 fun rebase
   (input_base: int, input_digits: int list, output_base: int): int list option =
