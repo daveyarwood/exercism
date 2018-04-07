@@ -1,16 +1,8 @@
 function count_nucleotides(strand::AbstractString)
-  result = Dict{Char,Int64}('G' => 0, 'C' => 0, 'T' => 0, 'A' => 0)
+  result = Dict('G' => 0, 'C' => 0, 'T' => 0, 'A' => 0)
   for nucleotide in strand
-    try
-      result[nucleotide] += 1
-    catch e
-      if isa(e, KeyError)
-        # As required by the tests.
-        throw(ErrorException(e.msg))
-      else
-        throw(e)
-      end
-    end
+    nucleotide in keys(result) || error("Invalid nucleotide: $nucleotide")
+    result[nucleotide] += 1
   end
   result
 end
