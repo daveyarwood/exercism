@@ -1,5 +1,5 @@
 // Returns the range of integers from 0 to n (exclusive).
-function range(n: number) {
+function range(n: number): number[] {
   return [...Array(n).keys()];
 }
 
