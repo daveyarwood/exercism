@@ -49,16 +49,24 @@ class SimpleCipher {
       throw 'Bad key';
   }
 
-  keyLetter(index: number): string {
+  encode(input: string): string {
+    return this.shiftString(input);
+  }
+
+  decode(input: string): string {
+    return this.shiftString(input, true);
+  }
+
+  private keyLetter(index: number): string {
     return this.key[index % this.key.length];
   }
 
-  shift(letter: string, amount: number) {
+  private shift(letter: string, amount: number) {
     let newIndex = (Alphabet.index(letter) + amount) % 26;
     return Alphabet.letter(newIndex);
   }
 
-  shiftString(str: string, decoding: boolean = false) {
+  private shiftString(str: string, decoding: boolean = false) {
     let modifier = decoding ? -1 : 1;
 
     return range(str.length)
@@ -68,14 +76,6 @@ class SimpleCipher {
                return this.shift(letter, amount);
              })
              .join('');
-  }
-
-  encode(input: string): string {
-    return this.shiftString(input);
-  }
-
-  decode(input: string): string {
-    return this.shiftString(input, true);
   }
 }
 
