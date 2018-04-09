@@ -43,10 +43,8 @@ class SimpleCipher {
   readonly key: string;
 
   constructor(key=SimpleCipher.randomKey()) {
-    if (key.match(/^[a-z]+$/))
-      this.key = key;
-    else
-      throw 'Bad key';
+    if (!key.match(/^[a-z]+$/)) throw 'Bad key';
+    this.key = key;
   }
 
   encode(input: string): string {
