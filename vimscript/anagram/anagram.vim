@@ -23,14 +23,5 @@ endfunction
 "   ['Ofo', 'oof']
 "
 function! Anagram(word, candidates) abort
-  let l:anagrams = []
-
-  for i in range(len(a:candidates))
-    let l:candidate = a:candidates[i]
-    if AnagramOf(l:candidate, a:word)
-      call add(l:anagrams, l:candidate)
-    endif
-  endfor
-
-  return sort(l:anagrams)
+  return sort(filter(a:candidates, 'AnagramOf(a:word, v:val)'))
 endfunction
