@@ -23,5 +23,5 @@ endfunction
 "   ['Ofo', 'oof']
 "
 function! Anagram(word, candidates) abort
-  return sort(filter(a:candidates, 'AnagramOf(a:word, v:val)'))
+  return sort(filter(a:candidates, {i, c -> AnagramOf(a:word, c)}))
 endfunction
