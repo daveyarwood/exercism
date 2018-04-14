@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+/.*\/exercism\/([^\/]+)\/([^\/]+)/.match(`pwd`.chomp) do |matches|
+  puts matches[1,2].join("\t")
+end

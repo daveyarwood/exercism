@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+CWD = File.dirname(__FILE__)
+
+USAGE = <<~EOF
+Usage:
+  #{$0}
+  #{$0} TRACK EXERCISE
+EOF
+
+case ARGV.count
+when 0
+  track, exercise = `#{CWD}/current_exercise`.chomp.split("\t")
+when 2
+  track, exercise = ARGV
+else
+  puts USAGE
+  exit 1
+end
+
+open_cmd = `uname`.chomp == 'Linux' ? 'xdg-open' : 'open'
+url = "http://exercism.io/tracks/#{track}/exercises/#{exercise}"
+
+`#{open_cmd} #{url}`
