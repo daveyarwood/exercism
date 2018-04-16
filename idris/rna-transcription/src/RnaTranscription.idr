@@ -13,22 +13,11 @@ namespace RnaStrand
   public export
   data RnaStrand = G | C | A | U
 
--- Do I really have to spell it out like this? Ugh. Good thing there are only
--- four nucleotides...
 implementation Eq DnaStrand where
-  C == C = True
-  G == G = True
-  T == T = True
-  A == A = True
-  _ == _ = False
+  l == r = True
 
--- Same complaint here.
 implementation Eq RnaStrand where
-  G == G = True
-  C == C = True
-  A == A = True
-  U == U = True
-  _ == _ = False
+  l == r = True
 
 toRna : Vect n DnaStrand -> Vect n RnaStrand
 toRna [] = []
