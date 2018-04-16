@@ -1,5 +1,3 @@
-open Core
-
 let identity n = n
 let squared n = n * n
 
