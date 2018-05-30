@@ -5,7 +5,7 @@ class Gigasecond {
     private LocalDateTime gigasecond;
 
     Gigasecond(LocalDate birthDate) {
-      this(birthDate.atTime(0, 0));
+      this(birthDate.atStartOfDay());
     }
 
     Gigasecond(LocalDateTime birthDateTime) {
