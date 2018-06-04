@@ -18,10 +18,15 @@
 (defun area-code (phone-number)
   (subseq (numbers phone-number) 0 3))
 
+(defun exchange-code (phone-number)
+  (subseq (numbers phone-number) 3 6))
+
+(defun subscriber-number (phone-number)
+  (subseq (numbers phone-number) 6))
+
 (defun pretty-print (phone-number)
-  (let* ((digits            (numbers phone-number))
-         (area-code         (subseq digits 0 3))
-         (exchange-code     (subseq digits 3 6))
-         (subscriber-number (subseq digits 6)))
-    (format nil "(~a) ~a-~a" area-code exchange-code subscriber-number)))
+  (format nil "(~a) ~a-~a"
+          (area-code phone-number)
+          (exchange-code phone-number)
+          (subscriber-number phone-number)))
 
