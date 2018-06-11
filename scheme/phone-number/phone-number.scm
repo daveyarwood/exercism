@@ -4,8 +4,7 @@
   #:autoload (ice-9 regex) (regexp-substitute/global))
 
 (define (numbers number-string)
-  (let ((digits (regexp-substitute/global
-                  #f "[^0-9]" number-string 'pre "" 'post))
+  (let ((digits (string-filter char-numeric? number-string))
         (error-value "0000000000"))
     (cond
       ((< (string-length digits) 10) error-value)
