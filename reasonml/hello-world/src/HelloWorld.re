@@ -1,1 +1,1 @@
-let hello = () => "Hello, World!"
+let hello = () => "Hello, World!";
