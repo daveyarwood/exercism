@@ -1,13 +1,43 @@
 #!/usr/bin/env ruby
 
-tracks = `exercism tracks`.lines.map do |line|
-  unless /\d+ problems/ !~ line
-    name, id, problems = line.strip.split(/\s{2,}/)
-    {name: name, id: id, problems: /\d+/.match(problems).to_s.to_i}
-  end
-end.compact
+script_dir = File.expand_path(File.dirname(__FILE__))
+
+# There used to be an `exercism tracks` command built into the exercism CLI,
+# which I was able to use to extract the list of tracks. They got rid of that at
+# some point and then made breaking changes to the API, forcing an upgrade to a
+# new version of the CLI that doesn't have the `tracks` command.
+
+# Hopefully they'll bring back the `exercism tracks` command, but until then, as
+# a workaround, I can curl the public "explore languages" page and extract the
+# track names and IDs from the HTML. This is messy and prone to breakage as they
+# update the HTML on that page, but it's the best I've got for now.
+
+curl_cmd = "curl 'https://exercism.io/#explore-languages'"
+
+# This only works if you have my `re-matches` script on your PATH.
+parse_cmd = "re-matches 'href=\"/tracks/([a-z-]+)\".*'\\''title'\\''>(\\w+)</div>'"
+
+puts "Fetching track list..."
+
+tracks = `#{curl_cmd} 2>/dev/null | #{parse_cmd}`.lines.map do |line|
+  id, name = line.strip.split("\t")
+  {id: id, name: name}
+end
 
 track = tracks.sample
-puts "Fetching the #{track[:name]} track..."
-system "exercism fetch #{track[:id]}"
+puts "Fetching exercises for the #{track[:name]} track..."
+
+curl_cmd = "curl https://exercism.io/tracks/#{track[:id]}/exercises"
+
+# This only works if you have my `re-matches` script on your PATH.
+parse_cmd = "re-matches 'href=.*/exercises/([a-z-]+).'"
+
+exercises = `#{curl_cmd} 2>/dev/null | #{parse_cmd}`.split("\n")
+
+track_dir = "#{script_dir}/#{track[:id]}"
+done = Dir.exist?(track_dir) ? Dir.entries(track_dir) : []
+puts "Track progress: #{done.size}/#{exercises.size}"
+exercise = (exercises - done).sample
+puts "Fetching #{track[:id]}/#{exercise}..."
+system "exercism download --track=#{track[:id]} --exercise=#{exercise}"
 
